@@ -1,6 +1,6 @@
 {
     "name": "denizen",
-    "version": "0.0.0",
+    "version": "1.0.0",
     "description": "Username validation and processing utilities",
     "homepage": "https://github.com/sholladay/denizen",
     "main": "index.js",
