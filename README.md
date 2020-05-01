@@ -77,7 +77,7 @@ denizen.validateUsername.silent('I-Am-Okay');      // => {}
 denizen.validateUsername.silent('IEndWithABang!')  // => { invalidEnd : 'Username must end with an alphanumeric character' }
 ```
 
-If `username` is invalid, the returned object will have at least one of properties below.
+If `username` is invalid, the returned object will have at least one of the properties below.
 
 Key            | Description
 -------------- | -----------
@@ -103,7 +103,7 @@ denizen.isValidUsername('-Jazz-Master-1');  // => false
 
 Returns the `username` in lowercase, with all non-alphanumeric characters removed.
 
-Note that validation happens before normalization. Set the `validate` option to `false` if you want to force normalization of invalid usernames, but note that the return value is then not guaranteed to be a valid username, since it could exceed the maximum length limit for valid usernames.
+Note that validation happens before normalization. Set the `validate` option to `false` if you want to force normalization of invalid usernames, but note that the return value is then not guaranteed to be a valid username, because it could exceed the maximum length limit for valid usernames.
 
 ```js
 denizen.normalizeUsername('Jazz-Master-1');  // => 'jazzmaster1'
@@ -121,7 +121,7 @@ denizen.isNormalizedUsername('jazzmaster1');    // => true
 #### username
 
 Type: `string`<br>
-Example: `Jazz-Master`
+Example: `'Jazz-Master'`
 
 #### option
 
