@@ -1,6 +1,60 @@
 import test from 'ava';
 import denizen from '.';
 
+test('isNormalizedUsername()', (t) => {
+    t.true(denizen.isNormalizedUsername('jazzmaster1'));
+    t.false(denizen.isNormalizedUsername('JazzMaster'));
+    t.false(denizen.isNormalizedUsername('Jazz-Master-1'));
+    t.false(denizen.isNormalizedUsername('jazz-master-', {
+        validate : false
+    }));
+    t.true(denizen.isNormalizedUsername('', {
+        allowEmpty : true
+    }));
+    t.throws(() => {
+        denizen.isNormalizedUsername('Jazz-Master-');
+    }, {
+        message : 'Username must end with an alphanumeric character'
+    });
+    t.throws(() => {
+        denizen.isNormalizedUsername('');
+    }, {
+        message : 'Username cannot be empty'
+    });
+});
+
+test('isValidUsername()', (t) => {
+    t.true(denizen.isValidUsername('jazzmaster1'));
+    t.true(denizen.isValidUsername('Jazz-Master-1'));
+    t.false(denizen.isValidUsername('Jazz-Master-'));
+    t.false(denizen.isValidUsername('Jazz!Master'));
+    t.false(denizen.isValidUsername(''));
+    t.true(denizen.isValidUsername('', {
+        allowEmpty : true
+    }));
+});
+
+test('normalizeUsername()', (t) => {
+    t.is(denizen.normalizeUsername('Jazz-Master-1'), 'jazzmaster1');
+    t.is(denizen.normalizeUsername('jazzmaster1'), 'jazzmaster1');
+    t.is(denizen.normalizeUsername('jazz-master-', {
+        validate : false
+    }), 'jazzmaster');
+    t.is(denizen.normalizeUsername('', {
+        allowEmpty : true
+    }), '');
+    t.throws(() => {
+        denizen.normalizeUsername('Jazz-Master-');
+    }, {
+        message : 'Username must end with an alphanumeric character'
+    });
+    t.throws(() => {
+        denizen.normalizeUsername('');
+    }, {
+        message : 'Username cannot be empty'
+    });
+});
+
 test('punctuationRegex', (t) => {
     t.false(denizen.punctuationRegex.global, 'Global regexes introduce dangerous statefulness via lastIndex');
     t.false(denizen.punctuationRegex.sticky, 'Sticky regexes introduce dangerous statefulness via lastIndex');
@@ -92,59 +146,5 @@ test('validateUsername.silent()', (t) => {
         invalidStart : 'Username must start with an alphanumeric character',
         invalidEnd   : 'Username must end with an alphanumeric character',
         invalidChars : 'Username may only contain alphanumeric characters and hyphens'
-    });
-});
-
-test('isValidUsername()', (t) => {
-    t.true(denizen.isValidUsername('jazzmaster1'));
-    t.true(denizen.isValidUsername('Jazz-Master-1'));
-    t.false(denizen.isValidUsername('Jazz-Master-'));
-    t.false(denizen.isValidUsername('Jazz!Master'));
-    t.false(denizen.isValidUsername(''));
-    t.true(denizen.isValidUsername('', {
-        allowEmpty : true
-    }));
-});
-
-test('normalizeUsername()', (t) => {
-    t.is(denizen.normalizeUsername('Jazz-Master-1'), 'jazzmaster1');
-    t.is(denizen.normalizeUsername('jazzmaster1'), 'jazzmaster1');
-    t.is(denizen.normalizeUsername('jazz-master-', {
-        validate : false
-    }), 'jazzmaster');
-    t.is(denizen.normalizeUsername('', {
-        allowEmpty : true
-    }), '');
-    t.throws(() => {
-        denizen.normalizeUsername('Jazz-Master-');
-    }, {
-        message : 'Username must end with an alphanumeric character'
-    });
-    t.throws(() => {
-        denizen.normalizeUsername('');
-    }, {
-        message : 'Username cannot be empty'
-    });
-});
-
-test('isNormalizedUsername()', (t) => {
-    t.true(denizen.isNormalizedUsername('jazzmaster1'));
-    t.false(denizen.isNormalizedUsername('JazzMaster'));
-    t.false(denizen.isNormalizedUsername('Jazz-Master-1'));
-    t.false(denizen.isNormalizedUsername('jazz-master-', {
-        validate : false
-    }));
-    t.true(denizen.isNormalizedUsername('', {
-        allowEmpty : true
-    }));
-    t.throws(() => {
-        denizen.isNormalizedUsername('Jazz-Master-');
-    }, {
-        message : 'Username must end with an alphanumeric character'
-    });
-    t.throws(() => {
-        denizen.isNormalizedUsername('');
-    }, {
-        message : 'Username cannot be empty'
     });
 });

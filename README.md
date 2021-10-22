@@ -45,6 +45,36 @@ Rules for valid usernames:
 
 ## API
 
+### isNormalizedUsername(username, option)
+
+Returns `true` if the username is all lowercase and only contains alphanumeric characters, otherwise returns `false`.
+
+```js
+denizen.isNormalizedUsername('Jazz-Master-1');  // => false
+denizen.isNormalizedUsername('jazzmaster1');    // => true
+```
+
+### isValidUsername(username, option)
+
+Returns `true` if the `username` is valid, as determined by `usernameRegex`, otherwise returns `false`.
+
+Note that the `validate` option is implicitly always `true` for this method, but validation errors will be represented via the returned boolean instead of being thrown. If the `allowEmpty` option is set to `true`, a falsey `username` is treated as valid.
+
+```js
+denizen.isValidUsername('Jazz-Master-1');   // => true
+denizen.isValidUsername('-Jazz-Master-1');  // => false
+```
+
+### normalizeUsername(username, option)
+
+Returns the `username` in lowercase, with all non-alphanumeric characters removed.
+
+Note that validation happens before normalization. Set the `validate` option to `false` if you want to force normalization of invalid usernames, but note that the return value is then not guaranteed to be a valid username, because it could exceed the maximum length limit for valid usernames.
+
+```js
+denizen.normalizeUsername('Jazz-Master-1');  // => 'jazzmaster1'
+```
+
 ### punctuationRegex
 
 Type: `RegExp`
@@ -88,36 +118,6 @@ Key            | Description
 `invalidEnd`   | The `username` has a non-alphanumeric last character.
 `invalidChars` | The `username` has a character that is neither alphanumeric, nor a hyphen.
 
-### isValidUsername(username, option)
-
-Returns `true` if the `username` is valid, as determined by `usernameRegex`, otherwise returns `false`.
-
-Note that the `validate` option is implicitly always `true` for this method, but validation errors will be represented via the returned boolean instead of being thrown. If the `allowEmpty` option is set to `true`, a falsey `username` is treated as valid.
-
-```js
-denizen.isValidUsername('Jazz-Master-1');   // => true
-denizen.isValidUsername('-Jazz-Master-1');  // => false
-```
-
-### normalizeUsername(username, option)
-
-Returns the `username` in lowercase, with all non-alphanumeric characters removed.
-
-Note that validation happens before normalization. Set the `validate` option to `false` if you want to force normalization of invalid usernames, but note that the return value is then not guaranteed to be a valid username, because it could exceed the maximum length limit for valid usernames.
-
-```js
-denizen.normalizeUsername('Jazz-Master-1');  // => 'jazzmaster1'
-```
-
-### isNormalizedUsername(username, option)
-
-Returns `true` if the username is all lowercase and only contains alphanumeric characters, otherwise returns `false`.
-
-```js
-denizen.isNormalizedUsername('Jazz-Master-1');  // => false
-denizen.isNormalizedUsername('jazzmaster1');    // => true
-```
-
 #### username
 
 Type: `string`<br>
@@ -127,13 +127,6 @@ Example: `'Jazz-Master'`
 
 Type: `object`
 
-##### validate
-
-Type: `boolean`<br>
-Default: `true`
-
-Throw when `username` is invalid, as determined by `validateUsername()`.
-
 ##### allowEmpty
 
 Type: `boolean`<br>
@@ -142,6 +135,13 @@ Default: `false`
 Allow `username` to be falsey, causing it to be treated as valid and normalized. This is useful to avoid errors being thrown when a form field has not been filled out yet, for example.
 
 Note that this option only has an effect when validation is enabled. If you set `validate` to `false`, empty usernames will always be allowed and this option will be ignored.
+
+##### validate
+
+Type: `boolean`<br>
+Default: `true`
+
+Throw when `username` is invalid, as determined by `validateUsername()`.
 
 ## Contributing
 

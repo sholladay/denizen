@@ -15,11 +15,6 @@ const validateUsername = (username, option) => {
     return username;
 };
 
-const isValidUsername = (username, option) => {
-    const config = { ...option };
-    return (config.allowEmpty && !username) || usernameRegex.test(username);
-};
-
 validateUsername.silent = (username, option) => {
     const config = { ...option };
     const problem = {};
@@ -58,16 +53,21 @@ const normalizeUsername = (username, option) => {
     return username.toLowerCase().replace(new RegExp(punctuationRegex, 'gi'), '');
 };
 
+const isValidUsername = (username, option) => {
+    const config = { ...option };
+    return (config.allowEmpty && !username) || usernameRegex.test(username);
+};
+
 const isNormalizedUsername = (username, option) => {
     const config = { ...option };
     return username === normalizeUsername(username, config);
 };
 
 module.exports = {
-    punctuationRegex,
-    usernameRegex,
-    validateUsername,
+    isNormalizedUsername,
     isValidUsername,
     normalizeUsername,
-    isNormalizedUsername
+    punctuationRegex,
+    usernameRegex,
+    validateUsername
 };
