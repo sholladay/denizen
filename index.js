@@ -1,17 +1,17 @@
-'use strict';
-
-const punctuationRegex = /[^a-z\d]/i;
-const usernameRegex = /^[a-z\d](?:[a-z\d]|-(?=[a-z\d])){0,29}$/i;
+const punctuationRegex = /[^a-z\d]/iu;
+const usernameRegex = /^[a-z\d](?:[a-z\d]|-(?=[a-z\d])){0,29}$/iu;
 
 const validateUsername = (username, option) => {
     const config = { ...option };
     const problem = validateUsername.silent(username, config);
-    Object.entries(problem).forEach(([key, message]) => {
+    const first = Object.entries(problem)[0];
+    if (first) {
+        const [key, message] = first;
         if (['tooShort', 'tooLong', 'doubleHyphen'].includes(key)) {
             throw new RangeError(message);
         }
         throw new Error(message);
-    });
+    }
     return username;
 };
 
@@ -36,7 +36,7 @@ validateUsername.silent = (username, option) => {
     if (username.includes('--')) {
         problem.doubleHyphen = 'Username cannot contain multiple hyphens in a row';
     }
-    if (punctuationRegex.test(username.replace(/-/g, ''))) {
+    if (punctuationRegex.test(username.replace(/-/gu, ''))) {
         problem.invalidChars = 'Username may only contain alphanumeric characters and hyphens';
     }
     return problem;
@@ -50,7 +50,7 @@ const normalizeUsername = (username, option) => {
     if (config.validate) {
         validateUsername(username, config);
     }
-    return username.toLowerCase().replace(new RegExp(punctuationRegex, 'gi'), '');
+    return username.toLowerCase().replace(new RegExp(punctuationRegex, 'giu'), '');
 };
 
 const isValidUsername = (username, option) => {
@@ -63,7 +63,7 @@ const isNormalizedUsername = (username, option) => {
     return username === normalizeUsername(username, config);
 };
 
-module.exports = {
+export {
     isNormalizedUsername,
     isValidUsername,
     normalizeUsername,

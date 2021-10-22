@@ -1,5 +1,5 @@
 import test from 'ava';
-import denizen from '.';
+import * as denizen from './index.js';
 
 test('isNormalizedUsername()', (t) => {
     t.true(denizen.isNormalizedUsername('jazzmaster1'));
@@ -64,7 +64,7 @@ test('punctuationRegex', (t) => {
     t.false(denizen.punctuationRegex.test('JazzMaster'));
     t.false(denizen.punctuationRegex.test('jazzmaster1'));
     t.is('abcDEF'.replace(denizen.punctuationRegex, ''), 'abcDEF');
-    t.is('abc,./!@#$%^&*()_+=-DEF'.replace(new RegExp(denizen.punctuationRegex, 'gi'), ''), 'abcDEF');
+    t.is('abc,./!@#$%^&*()_+=-DEF'.replace(new RegExp(denizen.punctuationRegex, 'giu'), ''), 'abcDEF');
 });
 
 test('usernameRegex', (t) => {
@@ -112,7 +112,7 @@ test('validateUsername.silent()', (t) => {
         invalidStart : 'Username must start with an alphanumeric character'
     });
     t.deepEqual(denizen.validateUsername.silent('IEndWithAHyphen-'), {
-        invalidEnd   : 'Username must end with an alphanumeric character'
+        invalidEnd : 'Username must end with an alphanumeric character'
     });
     t.deepEqual(denizen.validateUsername.silent('IHaveA Space'), {
         invalidChars : 'Username may only contain alphanumeric characters and hyphens'

@@ -1,4 +1,4 @@
-# denizen [![Build status for Denizen](https://img.shields.io/circleci/project/sholladay/denizen/master.svg "Build Status")](https://circleci.com/gh/sholladay/denizen "Builds")
+# denizen [![Build status for Denizen](https://travis-ci.com/sholladay/denizen.svg "Build Status")](https://travis-ci.com/sholladay/denizen "Builds")
 
 > Username validation and processing utilities
 
@@ -30,7 +30,7 @@ npm install denizen --save
 ## Usage
 
 ```js
-const denizen = require('denizen');
+import * as denizen from 'denizen');
 denizen.isValidUsername('Jane-Doe');    // => true
 denizen.normalizeUsername('Jane-Doe');  // => 'janedoe'
 ```

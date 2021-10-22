@@ -4,6 +4,7 @@
     "description": "Username validation and processing utilities",
     "homepage": "https://github.com/sholladay/denizen",
     "main": "index.js",
+    "type": "module",
     "author": {
         "name": "Seth Holladay",
         "url": "https://seth-holladay.com",
@@ -21,16 +22,16 @@
         "email": "me@seth-holladay.com"
     },
     "engines": {
-        "node": ">=8"
+        "node": ">=14"
     },
     "license": "MPL-2.0",
     "files": [
         "index.js"
     ],
     "devDependencies": {
-        "ava": "^1.0.0-beta.6",
-        "eslint-config-tidy": "^0.6.4",
-        "xo": "^0.21.1"
+        "ava": "^3.15.0",
+        "eslint-config-tidy": "^0.11.0",
+        "xo": "^0.45.0"
     },
     "keywords": [
         "users",
